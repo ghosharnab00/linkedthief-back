@@ -8,10 +8,12 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "puppeteer": "^19.1.0",
+    "puppeteer-autoscroll-down": "^1.1.1"
   },
   "engines": {
     "node": ">=14"
