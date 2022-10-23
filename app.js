@@ -17,9 +17,7 @@ app.get("/", async(req, res) => {
   req.setTimeout(0);
     const browser = await puppeteer.launch({
         'args' : [
-          '--no-sandbox',
-          '--disable-setuid-sandbox'
-        //   '--start-maximized'
+          '--start-maximized'
         ]
       });
     const page = await browser.newPage();
@@ -38,8 +36,49 @@ app.get("/", async(req, res) => {
 
 
   await page.goto(`https://www.linkedin.com/in/${userID}/recent-activity/shares/`);
+  for (i = 0; i < depth; i++) {
+    const lastPosition = await scrollPageToBottom(page, {
+        size: 400,
+        delay: 250
+    })
+    console.log('scroll done')
+    await page.waitForTimeout(4000);
+}
 
-  await browser.close();
+const extractPosts = async () => {
+    try {
+        const allposts = await page.evaluate(() => {
+            let posts = [];
+            const allpostElements = document.querySelectorAll('.occludable-update');
+            const postsElemLen = allpostElements.length;
+
+            for (let i = 0; i < postsElemLen; i++) {
+                try {
+                    const postElem = allpostElements[i];
+                    const posttext = postElem.querySelector(".feed-shared-update-v2__description-wrapper").innerText;
+                    const img = postElem.querySelector("img").src || '';
+                    const socialCount = postElem.querySelector(".social-details-social-counts__reactions-count").innerText || 0;
+                    const socialComments = postElem.querySelector('.social-details-social-counts__comments').innerText || 0;
+                    posts.push({
+                        posttext,
+                        img,
+                        socialCount,
+                        socialComments
+                    });
+                } catch (e) {}
+            }
+            return posts;
+        });
+
+        console.log('POSTS Scraped: ', allposts.length);
+        return allposts;
+
+
+    } catch (e) {
+        console.error("Unable to extract persons data", e);
+    }
+};
+  
   
 
 
@@ -51,7 +90,7 @@ app.get("/", async(req, res) => {
 
 
 
-  res.status(200).json({status:'on'})
+  res.status(200).json(await extractPosts())
 
 
 });
