@@ -12,14 +12,12 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 app.get("/", async(req, res) => {
-  
-  
   req.setTimeout(0);
-    const browser = await puppeteer.launch({
-        'args' : [
-          '--start-maximized'
-        ]
-      });
+
+
+  let launchOptions = { headless: true, args: ['--start-maximized'],  executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' };
+ 
+  const browser = await puppeteer.launch(launchOptions);
     const page = await browser.newPage();
   
     await page.setViewport({
@@ -42,7 +40,7 @@ app.get("/", async(req, res) => {
         delay: 250
     })
     console.log('scroll done')
-    await page.waitForTimeout(4000);
+    await page.waitForTimeout(1000);
 }
 
 const extractPosts = async () => {
