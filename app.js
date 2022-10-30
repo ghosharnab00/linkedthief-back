@@ -37,7 +37,7 @@ const LinkedThief = async( depth, userID)=>{
         size: 400,
         delay: 250
     })
-    console.log('scroll done')
+    console.log(`page ${i+1} scraping done`)
     await page.waitForTimeout(1000);
 }
 
@@ -52,7 +52,7 @@ const extractPosts = async () => {
                 try {
                     const postElem = allpostElements[i];
                     const posttext = postElem.querySelector(".feed-shared-update-v2__description-wrapper").innerText;
-                    // const img = postElem.querySelector("img").src || '';
+                    
                     const socialCount = postElem.querySelector(".social-details-social-counts__reactions-count").innerText || 0;
                     const socialComments = postElem.querySelector('.social-details-social-counts__comments').innerText || 0;
                     posts.push({
@@ -69,7 +69,7 @@ const extractPosts = async () => {
         console.log('POSTS Scraped: ', allposts.length);
         // console.log( allposts);
         const csvWriter = createCsvWriter({
-    path:  `/output/${userID}_linkedin_posts.csv`,
+    path:  `./output/${userID}_linkedin_posts.csv`,
     header: [
         {id: 'posttext', title: 'POST_TEXT'},
         // {id: 'img', title: 'IMAGE'},
@@ -92,3 +92,5 @@ extractPosts();
 }
 
 LinkedThief(searchDepth, LinkedInuserID)
+
+// process.exit();
