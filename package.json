@@ -12,9 +12,12 @@
   },
   "dependencies": {
     "csv-writer": "^1.6.0",
+    "dotenv": "^16.0.3",
     "express": "^4.16.3",
+    "prompt-sync": "^4.2.0",
     "puppeteer": "^19.1.0",
-    "puppeteer-autoscroll-down": "^1.1.1"
+    "puppeteer-autoscroll-down": "^1.1.1",
+    "readline-sync": "^1.4.10"
   },
   "engines": {
     "node": ">=14"

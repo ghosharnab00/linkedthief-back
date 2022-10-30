@@ -1,22 +1,17 @@
-// const express = require("express");
+require('dotenv').config()
 const puppeteer = require('puppeteer');
+const readlineSync = require('readline-sync');
+
 const {
   scrollPageToBottom
 } = require('puppeteer-autoscroll-down')
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
-const depth = 10;
-const userID = 'shreya-pattar';
+const searchDepth = readlineSync.question('How deep you want to scroll (Give answer from 1 to 10)? ');
+const LinkedInuserID = readlineSync.question('Enter the LinkedIn User name. Example: "arnab-ghosh" ');;
 
-
-
-// const app = express();
-// const port = process.env.PORT || 3001;
-
-// app.get("/", async(req, res) => {
-//   req.setTimeout(0);
-
-const scraper = async()=>{
+// console.log(depth, userID )
+const LinkedThief = async( depth, userID)=>{
 
   let launchOptions = { headless: true, args: ['--start-maximized'],  executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' };
  
@@ -31,7 +26,7 @@ const scraper = async()=>{
 
   await page.setCookie({
       'name': 'li_at',
-      'value': 'AQEDATXjEK0DGIznAAABg_bu1A4AAAGEGvtYDk0AebaHffeQhwSK1-bkVg-kBSZY3Qxrs_RW5kzx8ZN40owwlznk69AdTwXpzS3LWgkYmwBzEsrycKOGqzk3gD0HHNxH-PWI7A3QvWgWqOcSjUDDZa7R',
+      'value': process.env.COOKIE,
       'domain': 'www.linkedin.com'
   });
 
@@ -57,12 +52,12 @@ const extractPosts = async () => {
                 try {
                     const postElem = allpostElements[i];
                     const posttext = postElem.querySelector(".feed-shared-update-v2__description-wrapper").innerText;
-                    const img = postElem.querySelector("img").src || '';
+                    // const img = postElem.querySelector("img").src || '';
                     const socialCount = postElem.querySelector(".social-details-social-counts__reactions-count").innerText || 0;
                     const socialComments = postElem.querySelector('.social-details-social-counts__comments').innerText || 0;
                     posts.push({
                         posttext,
-                        img,
+                        // img,
                         socialCount,
                         socialComments
                     });
@@ -72,12 +67,12 @@ const extractPosts = async () => {
         });
 
         console.log('POSTS Scraped: ', allposts.length);
-        console.log( allposts);
+        // console.log( allposts);
         const csvWriter = createCsvWriter({
     path:  `${userID}_linkedin_posts.csv`,
     header: [
         {id: 'posttext', title: 'POST_TEXT'},
-        {id: 'img', title: 'IMAGE'},
+        // {id: 'img', title: 'IMAGE'},
         {id: 'socialCount', title: 'SOCIAL_COUNT'},
         {id: 'socialComments', title: 'SOCIAL_COMMENTS'},
     ]
@@ -96,28 +91,4 @@ extractPosts();
 
 }
 
-scraper()
-// const csvWriter = createCsvWriter({
-//     path:  `${userID}_linkedin_posts.csv`,
-//     header: [
-//         {id: 'posttext', title: 'POST_TEXT'},
-//         {id: 'img', title: 'IMAGE'},
-//         {id: 'socialCount', title: 'SOCIAL_COUNT'},
-//         {id: 'socialComments', title: 'SOCIAL_COMMENTS'},
-//     ]
-// });
- 
-// const records = allposts;
- 
-// csvWriter.writeRecords(records)       // returns a promise
-//     .then(() => {
-//         console.log('...Done');
-//     });
-  
-//   res.status(200).json(await extractPosts())
-
-
-// });
-
-// app.listen(port, () => console.log(`Example app listening on port ${port}!`));
-
+LinkedThief(searchDepth, LinkedInuserID)
