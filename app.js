@@ -26,7 +26,7 @@ const LinkedThief = async( depth, userID)=>{
 
   await page.setCookie({
       'name': 'li_at',
-      'value': process.env.COOKIE,
+      'value': process.env.COOKIE, // add your LinkedIn session cookie in the enviorenment variable
       'domain': 'www.linkedin.com'
   });
 
