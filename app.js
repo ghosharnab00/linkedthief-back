@@ -7,7 +7,7 @@ const {
 } = require('puppeteer-autoscroll-down')
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
-const searchDepth = readlineSync.question('How deep you want to scroll (Give answer from 1 to 10)? ');
+const searchDepth = readlineSync.question('How deep you want to scrape? (Give answer from 1 to 10)? ');
 const LinkedInuserID = readlineSync.question('Enter the LinkedIn User name. Example: "arnab-ghosh" ');;
 
 // console.log(depth, userID )
@@ -69,7 +69,7 @@ const extractPosts = async () => {
         console.log('POSTS Scraped: ', allposts.length);
         // console.log( allposts);
         const csvWriter = createCsvWriter({
-    path:  `${userID}_linkedin_posts.csv`,
+    path:  `/output/${userID}_linkedin_posts.csv`,
     header: [
         {id: 'posttext', title: 'POST_TEXT'},
         // {id: 'img', title: 'IMAGE'},
