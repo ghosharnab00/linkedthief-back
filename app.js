@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer');
 const {
   scrollPageToBottom
 } = require('puppeteer-autoscroll-down')
-const depth = 2;
+const depth = 5;
 const userID = 'iamarnabghosh';
 
 
@@ -70,24 +70,12 @@ const extractPosts = async () => {
 
         console.log('POSTS Scraped: ', allposts.length);
         return allposts;
-
-
     } catch (e) {
         console.error("Unable to extract persons data", e);
     }
 };
   
   
-
-
-
-
-
-
-
-
-
-
   res.status(200).json(await extractPosts())
 
 
