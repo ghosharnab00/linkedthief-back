@@ -1,19 +1,22 @@
-const express = require("express");
+// const express = require("express");
 const puppeteer = require('puppeteer');
 const {
   scrollPageToBottom
 } = require('puppeteer-autoscroll-down')
-const depth = 5;
-const userID = 'iamarnabghosh';
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+
+const depth = 10;
+const userID = 'shreya-pattar';
 
 
 
-const app = express();
-const port = process.env.PORT || 3001;
+// const app = express();
+// const port = process.env.PORT || 3001;
 
-app.get("/", async(req, res) => {
-  req.setTimeout(0);
+// app.get("/", async(req, res) => {
+//   req.setTimeout(0);
 
+const scraper = async()=>{
 
   let launchOptions = { headless: true, args: ['--start-maximized'],  executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' };
  
@@ -69,17 +72,52 @@ const extractPosts = async () => {
         });
 
         console.log('POSTS Scraped: ', allposts.length);
-        return allposts;
+        console.log( allposts);
+        const csvWriter = createCsvWriter({
+    path:  `${userID}_linkedin_posts.csv`,
+    header: [
+        {id: 'posttext', title: 'POST_TEXT'},
+        {id: 'img', title: 'IMAGE'},
+        {id: 'socialCount', title: 'SOCIAL_COUNT'},
+        {id: 'socialComments', title: 'SOCIAL_COMMENTS'},
+    ]
+});
+ 
+csvWriter.writeRecords(allposts)       // returns a promise
+    .then(() => {
+        console.log('...Done');
+    });
     } catch (e) {
         console.error("Unable to extract persons data", e);
     }
 };
+
+extractPosts();
+
+}
+
+scraper()
+// const csvWriter = createCsvWriter({
+//     path:  `${userID}_linkedin_posts.csv`,
+//     header: [
+//         {id: 'posttext', title: 'POST_TEXT'},
+//         {id: 'img', title: 'IMAGE'},
+//         {id: 'socialCount', title: 'SOCIAL_COUNT'},
+//         {id: 'socialComments', title: 'SOCIAL_COMMENTS'},
+//     ]
+// });
+ 
+// const records = allposts;
+ 
+// csvWriter.writeRecords(records)       // returns a promise
+//     .then(() => {
+//         console.log('...Done');
+//     });
   
-  
-  res.status(200).json(await extractPosts())
+//   res.status(200).json(await extractPosts())
 
 
-});
+// });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+// app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 

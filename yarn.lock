@@ -204,6 +204,11 @@
   dependencies:
     "node-fetch" "2.6.7"
 
+"csv-writer@^1.6.0":
+  "integrity" "sha512-NOx7YDFWEsM/fTRAJjRpPp8t+MKRVvniAg9wQlUKx20MFrPs73WLJhFf5iteqrxNYnsy924K3Iroh3yNHeYd2g=="
+  "resolved" "https://registry.npmjs.org/csv-writer/-/csv-writer-1.6.0.tgz"
+  "version" "1.6.0"
+
 "debug@^4.1.1":
   "integrity" "sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ=="
   "resolved" "https://registry.npmjs.org/debug/-/debug-4.3.4.tgz"

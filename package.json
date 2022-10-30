@@ -11,6 +11,7 @@
     "start": "nodemon app.js"
   },
   "dependencies": {
+    "csv-writer": "^1.6.0",
     "express": "^4.16.3",
     "puppeteer": "^19.1.0",
     "puppeteer-autoscroll-down": "^1.1.1"
