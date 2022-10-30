@@ -33,10 +33,12 @@ This is a simple LinkedIn Post scraper built with Node.js
 
 Copy the repo from this website, then
 In command line:
-`$ git clone https://github.com/ghosharnab00/linkedthief-back.git`
-`$ cd LinkedHeist`
-`$ npm install`
-`$ npm start`
+```
+$ git clone https://github.com/ghosharnab00/linkedthief-back.git
+$ cd LinkedHeist
+$ npm install
+$ npm start
+```
 
 At this point you should see the app running
 
